@@ -1,6 +1,6 @@
 [project]
 name = "beeai-framework"
-version="0.1.23"
+version="0.1.25"
 license = "Apache-2.0"
 readme = "README.md"
 authors = [{ name = "IBM Corp." }]
@@ -48,7 +48,7 @@ poethepoet = "^0.33.1"
 pydantic-settings = "^2.7"
 pylint = "^3.3.2"
 pytest = "^8.3.4"
-pytest-asyncio = "^0.25.3"
+pytest-asyncio = "~0.25.3"
 pytest-cov = "^6.0.0"
 pytest-xdist = "^3.6.1"
 rich = ">=13.6.0,<14.0.0"

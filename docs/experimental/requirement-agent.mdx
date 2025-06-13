@@ -58,7 +58,7 @@ agent = RequirementAgent(
 
 # Run with execution logging
 response = await agent.run("What to do in Boston?").middleware(GlobalTrajectoryMiddleware())
-print(response.result.text)
+print(response.answer.text)
 ```
 
 This agent will:
@@ -140,7 +140,7 @@ RequirementAgent(
 ```
 
 <Tip>
-For a more general approach, use `ConditionalRequirement(ThinkTool, force_at_step=1, force_after=Tool, can_be_used_in_row=False)`, where the option `can_be_used_in_row=False` prevents `ThinkTool` from being used multiple times in a row.
+For a more general approach, use `ConditionalRequirement(ThinkTool, force_at_step=1, force_after=Tool, consecutive_allowed=False)`, where the option `consecutive_allowed=False` prevents `ThinkTool` from being used multiple times in a row.
 </Tip>
 
 ### ReAct Agent + Custom Conditions
@@ -180,7 +180,8 @@ ConditionalRequirement(
   force_at_step=1, # (optional) Step number at which the tool must be invoked
   only_success_invocations=True, # (optional) Whether 'force_at_step' counts only successful invocations
   priority=10, # (optional) Higher number means higher priority for requirement enforcement
-  can_be_used_in_row=True, # (optional) Whether the tool can be invoked twice in a row
+  consecutive_allowed=True, # (optional) Whether the tool can be invoked twice in a row
+  force_prevent_stop=False,  # (optional) If True, prevents the agent from giving a final answer when a forced target_tool call occurs.
   enabled=True, # (optional) Whether to skip this requirement’s execution
   custom_checks=[
      # (optional) Custom callbacks; all must pass for the tool to be used
