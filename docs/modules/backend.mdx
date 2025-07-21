@@ -30,7 +30,7 @@ The following table depicts supported providers. Each provider requires specific
 | Ollama         |  ✅  |     ✅     | OLLAMA_CHAT_MODEL<br/>OLLAMA_BASE_URL                                                                                                       |
 | OpenAI         |  ✅  |     ✅     | OPENAI_CHAT_MODEL<br/>OPENAI_EMBEDDING_MODEL<br/>OPENAI_API_BASE<br/>OPENAI_API_KEY<br/>OPENAI_ORGANIZATION<br/>OPENAI_API_HEADERS                                                                                                       |
 | Watsonx        |  ✅  |     ✅     | WATSONX_CHAT_MODEL<br/>WATSONX_API_KEY<br/>WATSONX_PROJECT_ID<br/>WATSONX_SPACE_ID<br/>WATSONX_TOKEN<br/>WATSONX_ZENAPIKEY<br/>WATSONX_URL<br/>WATSONX_REGION |
-| Groq           |  ✅  |     ✅     | GROQ_CHAT_MODEL<br>GROQ_EMBEDDING_MODEL<br/>GROQ_API_KEY |
+| Groq           |  ✅  |     ✅     | GROQ_CHAT_MODEL<br/>GROQ_EMBEDDING_MODEL<br/>GROQ_API_KEY |
 | Amazon Bedrock |  ✅  |     ✅  *(TS only)*    | AWS_CHAT_MODEL<br/>AWS_ACCESS_KEY_ID<br/>AWS_SECRET_ACCESS_KEY<br/>AWS_REGION<br/>AWS_API_HEADERS |
 | Google Vertex  |  ✅  |     ✅  *(TS only)*    | GOOGLE_VERTEX_CHAT_MODEL<br/>GOOGLE_VERTEX_PROJECT<br/>GOOGLE_APPLICATION_CREDENTIALS<br/>GOOGLE_APPLICATION_CREDENTIALS_JSON<br/>GOOGLE_CREDENTIALS<br/>GOOGLE_VERTEX_API_HEADERS |
 | Azure OpenAI   |  ✅  |     ✅  *(TS only)*    | AZURE_OPENAI_CHAT_MODEL<br/>AZURE_OPENAI_API_KEY<br/>AZURE_OPENAI_API_BASE<br/>AZURE_OPENAI_API_VERSION<br/>AZURE_AD_TOKEN<br/>AZURE_API_TYPE<br/>AZURE_API_HEADERS |
@@ -235,7 +235,7 @@ import { z } from "zod";
 import { OpenMeteoTool } from "beeai-framework/tools/weather/openMeteo";
 
 const llm = new WatsonxChatModel(
-  "meta-llama/llama-3-1-70b-instruct",
+  "ibm/granite-3-3-8b-instruct",
   // {
   //   apiKey: "WATSONX_API_KEY",
   //   baseUrl: "WATSONX_BASE_URL",
@@ -251,7 +251,7 @@ llm.config({
 });
 
 async function watsonxFromName() {
-  const watsonxLLM = await ChatModel.fromName("watsonx:meta-llama/llama-3-1-8b-instruct");
+  const watsonxLLM = await ChatModel.fromName("watsonx:ibm/granite-3-3-8b-instruct");
   const response = await watsonxLLM.create({
     messages: [new UserMessage("what states are part of New England?")],
   });
@@ -296,7 +296,7 @@ async function watsonxAbort() {
     console.info(response.getTextContent());
   } catch (err) {
     if (err instanceof AbortError) {
-      console.error("Aborted", { err });
+      console.log("Aborted", { err });
     }
   }
 }
@@ -975,7 +975,7 @@ async function langchainAbort() {
     console.info(response.getTextContent());
   } catch (err) {
     if (err instanceof ChatModelError) {
-      console.error("Aborted", { err });
+      console.log("Aborted", { err });
     }
   }
 }
@@ -991,7 +991,9 @@ async function langchainStructure() {
 }
 
 async function langchainToolCalling() {
-  const userMessage = new UserMessage("What is the weather in Boston?");
+  const userMessage = new UserMessage(
+    `What is the current weather in Boston? Current date is ${new Date().toISOString().split("T")[0]}.`,
+  );
   const weatherTool = new OpenMeteoTool({ retryOptions: { maxRetries: 3 } });
   const response = await llm.create({ messages: [userMessage], tools: [weatherTool] });
   const toolCallMsg = response.getToolCalls()[0];

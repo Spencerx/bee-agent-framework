@@ -27,13 +27,6 @@ backend = "ubi:google/addlicense"
 [tools."ubi:google/addlicense".checksums]
 addlicense-macos-aarch64 = "sha256:ce5830d1efd60c71f4b51071c12fa2be927ee13c5058f587a57be69eee1d8ab4"
 
-[tools."ubi:lycheeverse/lychee"]
-version = "lychee-v0.19.1"
-backend = "ubi:lycheeverse/lychee"
-
-[tools."ubi:lycheeverse/lychee".checksums]
-lychee-macos-aarch64 = "sha256:fe0299ffaf2f99646d280f44b7ee578f78aed06361dc703cf28b4cf1da089c36"
-
 [tools.yarn]
 version = "4.9.1"
 backend = "asdf:yarn"

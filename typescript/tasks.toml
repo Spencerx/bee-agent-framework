@@ -87,7 +87,6 @@ outputs = { auto = true }
 # run
 
 ["typescript:run"]
-depends = ["typescript:build"]
 dir = "{{config_root}}/typescript"
 run = "yarn tsx --tsconfig tsconfig.examples.json"
 

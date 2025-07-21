@@ -17,17 +17,7 @@ depends = ["docs:check:*"]
 ["docs:check:links"]
 depends = ["docs:setup"]
 dir = "{{config_root}}/docs"
-run = '''
-lychee \
-  --verbose \
-  --no-progress \
-  --exclude '(github)\.com' \
-  --include-fragments \
-  --max-concurrency 10 \
-  --max-retries 0 \
-  --exclude-path python \
-  './**/*.mdx'
-'''
+run = "yarn mintlify broken-links"
 sources = ["**/*.mdx"]
 outputs = { auto = true }
 

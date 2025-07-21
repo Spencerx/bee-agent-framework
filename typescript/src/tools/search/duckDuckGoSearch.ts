@@ -19,6 +19,7 @@ import { Cache } from "@/cache/decoratorCache.js";
 import { RunContext } from "@/context.js";
 import { paginate } from "@/internals/helpers/paginate.js";
 import { Emitter } from "@/emitter/emitter.js";
+import { getEnv, parseEnv } from "@/internals/env.js";
 
 export { SafeSearchType as DuckDuckGoSearchToolSearchType };
 
@@ -79,7 +80,15 @@ export class DuckDuckGoSearchTool extends Tool<
   }
 
   public constructor(options: Partial<DuckDuckGoSearchToolOptions> = {}) {
-    super({ ...options, maxResults: options?.maxResults ?? 15 });
+    super({
+      ...options,
+      maxResults: options?.maxResults ?? 15,
+      httpClientOptions: {
+        proxy: getEnv("BEEAI_DDG_TOOL_PROXY"),
+        rejectUnauthorized: parseEnv.asBoolean("BEEAI_DDG_TOOL_PROXY_VERIFY", true),
+        ...options?.httpClientOptions,
+      },
+    });
   }
 
   static {

@@ -20,7 +20,7 @@ describe("OpenMeteo", () => {
         location: {
           name: "Boston",
         },
-        start_date: "2024-11-06",
+        start_date: new Date().toISOString().split("T")[0],
         temperature_unit: "celsius",
       },
       {

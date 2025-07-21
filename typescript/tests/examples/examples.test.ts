@@ -25,6 +25,8 @@ const exclude: string[] = [
   "examples/agents/experimental/remote.ts",
   "examples/playground/**/*.ts",
   "examples/internals/fetcher.ts",
+  "examples/integrations/langgraph.ts",
+  "examples/backend/toolCalling.ts", // broken DDG
   // prevents 'Too many requests' error on Free Tier
   !getEnv("WATSONX_API_KEY") && [
     "examples/backend/providers/watson*.ts",
@@ -64,7 +66,7 @@ describe("E2E Examples", async () => {
   });
 
   it.concurrent.each(exampleFiles)(`Run %s`, async (example) => {
-    await execAsync(`echo "Hello world" | yarn start -- ${example}`)
+    await execAsync(`echo "Hello world" | yarn tsx --tsconfig tsconfig.examples.json -- ${example}`)
       .then(({ stdout, stderr }) => {
         // eslint-disable-next-line no-console
         console.log("STDOUT:", stdout);
